@@ -27,6 +27,8 @@ After that the following agents will be available:
 2. Login to Faber agent (`localhost:3002`) with `faber` login and `123` password
 3. Login to Acme agent (`localhost:3003`) with `acme` login and `123` password
 
+![01-login](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/01-login.png?raw=true)
+
 ### Establish connection between Alice and Faber:
 
 1. in Alice agent, press `Send New Connection Request`
@@ -34,7 +36,13 @@ After that the following agents will be available:
 3. Send connection request
 4. Go to Messages page of both agents and accept "Proof Requests" for the name of each agent
 
+![02-connection](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/02-connection.png?raw=true)
+
+![03-name-proof](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/03-name-proof.png?raw=true)
+
 At this point you be able to see active connection with Alice in Faber agent and with Faber in Alice agent.
+
+![04-rel](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/04-realationships.png?raw=true)
 
 ### Issue Transcript for Alice
 
@@ -46,9 +54,17 @@ At this point you be able to see active connection with Alice in Faber agent and
 
 After that, in Alice agent in 'Credentials' tab you would see her transcript.
 
+![05-creds](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/05-creds.png?raw=true)
+
+![06-offer](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/06-cred-offer.png?raw=true)
+
+![07-creds](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/07-creds.png?raw=true)
+
 ### Establish connection between Alice and Acme agents
 
 The process is similar as for Alice and Faber.
+
+![08-acme](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/08-acme.png?raw=true)
 
 ### Send proof request
 
@@ -57,4 +73,12 @@ The process is similar as for Alice and Faber.
 3. Click Submit Query to send proof request
 4. In Alice agent open Messages tab and accept the proof request
 
+![09-proof-req](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/09-proof-req-1.png?raw=true)
+
+![10-proof-req](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/09-proof-req-2.png?raw=true)
+
+![11-proof-req](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/09-proof-req-3.png?raw=true)
+
 At this point Acme would receive Alice's transcript and would be able to validate it. You can check that in Acme agent by clicking on Alice relationship and then on 'Validate' button on the transcript proof.
+
+![12-validate](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/12-validate.png?raw=true)

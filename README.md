@@ -1,3 +1,5 @@
+# Indy-Agent Demo
+
 In this demo we will be working with [indy-agent](https://github.com/hyperledger/indy-agent) repository. It provides hyperleger network and several agent with different roles.
 
 We will be looking at Alice, Faber University and Acme Corporation agents. The story behind these agents is that Alice has graduated from Faber and wants to apply for a job at Acme. Since Acme requires a transcript from any trusted universities, including Faber, the following should happen:

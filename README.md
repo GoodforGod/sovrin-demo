@@ -112,3 +112,13 @@ In Alice agent open Messages tab and accept the proof request:
 At this point Acme would receive Alice's transcript and would be able to validate it. You can check that in Acme agent by clicking on Alice relationship and then on 'Validate' button on the transcript proof:
 
 ![12-validate](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/12-validate.png?raw=true)
+
+# Useful links
+
+* [Sovrin whitepaper](https://sovrin.org/wp-content/uploads/Sovrin-Protocol-and-Token-White-Paper.pdf)
+* [Indy-Node repository](https://github.com/hyperledger/indy-node)
+* [Indy-SDK repository](https://github.com/hyperledger/indy-sdk)
+* [Indy-Agent repository](https://github.com/hyperledger/indy-agent)
+* [How to start pool](https://github.com/hyperledger/indy-sdk/blob/master/README.md#how-to-start-local-nodes-pool-with-docker), [another one](https://github.com/hyperledger/indy-node/blob/master/environment/docker/pool/README.md)
+* [Getting started guide](https://github.com/hyperledger/indy-sdk/blob/master/doc/getting-started/getting-started.md), [source code](https://github.com/hyperledger/indy-sdk/blob/28f34ef292c9cf22ed8c231d7fecb841857a3b8e/samples/python/src/getting_started.py)
+

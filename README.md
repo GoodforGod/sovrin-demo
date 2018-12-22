@@ -117,7 +117,7 @@ At this point Acme would receive Alice's transcript and would be able to validat
 
 Based on [getting started guide](https://github.com/hyperledger/indy-sdk/blob/master/doc/getting-started/getting-started.md) 
 
-## DID Creation
+## Decentralized Identifiers (DID)
 
 `(did, verkey) = await did.create_and_store_my_did(wallet, "{}")`
 
@@ -134,7 +134,7 @@ DID types:
 1. A Verinym is associated with the Legal Identity of the Identity Owner.
 2. Pseudonym - a Blinded Identifier used to maintain privacy in the context of an ongoing digital relationship (Connection). If the Pseudonym is used to maintain only one digital relationship we will call it a Pairwise-Unique Identifier.
 
-## Connection Establishments Protocol
+## Creating Pseudonym DID
 
 Suppose we have the following actors:
 
@@ -169,6 +169,8 @@ Steward:
 ![conn-pseu](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/conn-pseu.png?raw=true)
 
 At this point Faber is connected to the Steward and can interact in a secure peer-to-peer way. All parties must not use the same DID's to establish other relationships. By having independent pairwise relationships, you're reducing the ability for others to correlate your activities across multiple interactions.
+
+## Creating Verinym DID
 
 The following protocol is described for creating Verinym DID after connection is established:
 

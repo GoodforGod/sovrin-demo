@@ -1,0 +1,112 @@
+version: "3"
+
+services:
+  indy_node_1:
+    container_name: indy_node_1
+    build: indy-node
+    environment:
+      INDY_GENESIS_NODE: "true"
+      INDY_NODE_NAME: lately-kindly-able-goblin
+      INDY_NODE_SEED: iuzP95Vw15UvEriqCXPnq6e92dg56IP8
+      INDY_INITIAL_POOL_IPS: 172.24.0.3,172.24.0.4,172.24.0.5
+      INDY_INITIAL_POOL_SEEDS: p8u3DRlclnljotsqkB5A7Au5OkgYP0jX,AL506Wksh8OnPiGDXeShsrB1EsmtCpdd,iifKQsl6ilCSgjOHMLGiJ2Fs9VnCEdMr  
+      INDY_INITIAL_POOL_NAMES: finally-implicitly-gorgeous-mutt,positively-widely-measured-jackass,ghastly-pleasantly-right-racer
+      # INDY_NODE_IP: "0.0.0.0"
+    volumes:
+      - ${PWD}/networks/genesis:/var/lib/indy/genesis
+    networks:
+      mesh-indy-network:
+          ipv4_address: 172.24.0.2
+    ports:
+      - 9701:9701
+      - 9702:9702
+
+  indy_node_2:
+    container_name: indy_node_2
+    build: indy-node
+    environment: 
+      INDY_NODE_NAME: finally-implicitly-gorgeous-mutt
+      INDY_NODE_SEED: p8u3DRlclnljotsqkB5A7Au5OkgYP0jX
+    volumes:
+      - ${PWD}/networks/genesis:/var/lib/indy/genesis
+    networks:
+      mesh-indy-network:
+          ipv4_address: 172.24.0.3
+
+  indy_node_3:
+    container_name: indy_node_3
+    build: indy-node
+    environment: 
+      INDY_NODE_NAME: positively-widely-measured-jackass
+      INDY_NODE_SEED: AL506Wksh8OnPiGDXeShsrB1EsmtCpdd
+    volumes:
+      - ${PWD}/networks/genesis:/var/lib/indy/genesis
+    networks:
+      mesh-indy-network:
+          ipv4_address: 172.24.0.4
+
+  indy_node_4:
+    container_name: indy_node_4
+    build: indy-node
+    environment: 
+      INDY_NODE_NAME: ghastly-pleasantly-right-racer
+      INDY_NODE_SEED: iifKQsl6ilCSgjOHMLGiJ2Fs9VnCEdMr
+    volumes:
+      - ${PWD}/networks/genesis:/var/lib/indy/genesis
+    networks:
+      mesh-indy-network:
+          ipv4_address: 172.24.0.5
+
+  indy_demo_steward:
+    container_name: indy_demo_steward
+    build: indy-demo
+    volumes:
+      - ${PWD}/networks/genesis:/var/lib/indy/genesis
+      - ${PWD}/indy-demo:/indy-demo
+    networks:
+      mesh-indy-network:
+          ipv4_address: 172.24.0.10
+    ports:
+      - 8080:8080
+
+  indy_demo_agent:
+    container_name: indy_demo_agent
+    build: indy-demo
+    environment:
+      STEWARD_ENDPOINT: "http://indy_demo_steward:8080/"
+    volumes:
+      - ${PWD}/networks/genesis:/var/lib/indy/genesis
+      - ${PWD}/indy-demo:/indy-demo
+    networks:
+      mesh-indy-network:
+          ipv4_address: 172.24.0.11
+
+  # indy_agent_1:
+  #   container_name: indy_agent_1
+  #   build: indy-agent/python/
+  #   environment: 
+  #     PORT: 8080
+  #   ports:
+  #     - 8080:8080
+  #   networks:
+  #     mesh-indy-network:
+  #         ipv4_address: 172.24.0.100
+  #
+  # indy_agent_2:
+  #   container_name: indy_agent_2
+  #   build: indy-agent/python/
+  #   environment: 
+  #     PORT: 8081
+  #   ports:
+  #     - 8081:8081
+  #   networks:
+  #     mesh-indy-network:
+  #         ipv4_address: 172.24.0.101
+
+networks:
+  mesh-indy-network:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.24.0.0/24

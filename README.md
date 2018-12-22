@@ -113,6 +113,81 @@ At this point Acme would receive Alice's transcript and would be able to validat
 
 ![12-validate](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/12-validate.png?raw=true)
 
+# Connection establishment protocol
+
+Based on [getting started guide](https://github.com/hyperledger/indy-sdk/blob/master/doc/getting-started/getting-started.md) 
+
+## DID Creation
+
+`(did, verkey) = await did.create_and_store_my_did(wallet, "{}")`
+
+Creates DID record in the wallet (local storage):
+
+* `verkey` contains a public key
+* `did` contains the first 16 bytes of the `verkey`
+* Private key is stored in the wallet and cannot be accessed directly
+* Optionally a random number generator seed can be provided 
+* Source: https://github.com/hyperledger/indy-sdk/blob/ff1b106d8fe7fc7a3d704d2ff9af04e0b6a4d24b/libindy/src/api/did.rs#L55 
+
+DID types:
+
+1. A Verinym is associated with the Legal Identity of the Identity Owner.
+2. Pseudonym - a Blinded Identifier used to maintain privacy in the context of an ongoing digital relationship (Connection). If the Pseudonym is used to maintain only one digital relationship we will call it a Pairwise-Unique Identifier.
+
+## Connection Establishments Protocol
+
+Suppose we have the following actors:
+
+1. Steward. An organization with “Trust Anchor” role (i.e. it can assign “Trust Anchor” role to others and register DIDs).
+2. Faber Collage (for consistency with Getting Started guide). An organization that wishes to establish connection with Steward
+
+The following protocol for connection establishment is described in the guide:
+
+Steward:
+
+1. Steward already has DID (Verinym) stored in the Ledger. Let’s denote it by (S_did, S_key)
+2. Creates new DID (Pseudonym) for communication with Faber (SF_did, SF_key)
+3. Stores  (SF_did, SF_key) in the Ledger (creates NYM transaction (https://github.com/hyperledger/indy-node/blob/master/docs/requests.md#nym))
+4. Creates Nonce – a random number.
+5. Sends connection request containing SF_did and Nonce to Faber.
+
+Faber:
+
+1. Receives connection request
+2. Creates new DID (Pseudonym) for communication with Steward (FS_did, FS_key)
+3. Creates connection response containing (FS_did, FS_key, Nonce)
+4. Fetches SF_key from the Ledger by Steward’s SF_did
+5. Encrypts connection response with SF_key. By dong that Steward can verify the integrity of the message but it cannot identify the sender
+6. Sends connection response
+
+Steward:
+
+1. Decrypts connection response with his private key
+2. Compares Nonce from the connection response with the one created earlier. In case they match Faber is authenticated.
+3. Stores Faber’s DID in the Ledger by creating NYM transaction with (S_did, FS_did, FS_key)
+
+![conn-pseu](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/conn-pseu.png?raw=true)
+
+At this point Faber is connected to the Steward and can interact in a secure peer-to-peer way. All parties must not use the same DID's to establish other relationships. By having independent pairwise relationships, you're reducing the ability for others to correlate your activities across multiple interactions.
+
+The following protocol is described for creating Verinym DID after connection is established:
+
+Faber:
+
+1. Creates new DID (Verinym) denoted as (F_did, F_key).
+2. Encrypts (F_did, F_key) with FS_key and  SF_key
+3. By doing that Steward can verify both the integrity and the identity of the sender.
+4. Sends encrypted message to Steward
+
+Steward:
+
+1. Decrypts the message, let’s denote Sender_key as a public key of this message
+2. Fetches FS_key by FS_did from the Ledger. (I’m not sure if it’s required as Steward already has FS_key, also there’s an error in the guide compared to the code (https://github.com/hyperledger/indy-sdk/blob/28f34ef292c9cf22ed8c231d7fecb841857a3b8e/samples/python/src/getting_started.py#L798))
+3. Compares Sender_key with FS_key. 
+4. Creates the entry in the Ledger containing (F_did, F_key) and Faber’s roles (NYM transaction).
+
+![conn-ver](https://github.com/apspdfoknd/sovrin-demo/blob/master/images/conn-ver.png?raw=true)
+
 # Useful links
 
 * [Sovrin whitepaper](https://sovrin.org/wp-content/uploads/Sovrin-Protocol-and-Token-White-Paper.pdf)

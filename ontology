@@ -1,9 +1,9 @@
-[
-  "university",
-  "major", 
-  "degree", 
-  "average_all", 
-  "average_major", 
-  "enrollment_time", 
-  "graduation_time"
-]
+{
+  "univ":"university",
+  "major":"major", 
+  "degree":"degree", 
+  "avg_all":"average_all", 
+  "avg_major":"average_major", 
+  "enroll_time":"enrollment_time", 
+  "grad_time":"graduation_time"
+}
